@@ -114,8 +114,13 @@ class App {
         console.log("LoadAlbums");
     }
     async LoadAlbum(albumId) {
+        var album = await PhotoAlbum.GetAlbum(albumId);
         var photos = await PhotoAlbum.GetPhotos(albumId);
-        var html = PhotoAlbum.PhotosToCardsHtml(photos);
+        var input = {
+            "album": album,
+            "photos": photos
+        };
+        var html = PhotoAlbum.PhotosToCardsHtml(input);
         this.MainContentArea.html(html);
     }
 }
