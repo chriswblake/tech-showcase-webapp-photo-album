@@ -125,6 +125,7 @@ class App {
             html += PhotoAlbum.AlbumToCardHtml(album);
         });
         this.MainContentArea.html(html);
+        this.SideContentArea.show();
 
         // Lazy load thumnbails, after cards
         $(".album-card").each(async function () {
@@ -155,6 +156,7 @@ class App {
         };
         var html = PhotoAlbum.PhotosToCardsHtml(input);
         this.MainContentArea.html(html);
+        this.SideContentArea.hide();
     }
 
     // Methods - Interactions
