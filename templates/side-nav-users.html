@@ -1,8 +1,6 @@
 <b>Users</b>
 {{#each this}}
-    <a class="user-link" href="?userId={{id}}">
-    <div class="side-nav-user">
-        <i class="fa-solid fa-user"></i> {{name}}
+    <div class="side-nav-user" userid="{{id}}">
+        <i class="fa-solid fa-user"></i> {{id}}: {{name}}
     </div>
-    </a>
 {{/each}}

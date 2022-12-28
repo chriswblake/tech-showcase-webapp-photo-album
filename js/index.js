@@ -141,6 +141,9 @@ class App {
         console.log(users.length);
         var html = User.UsersToSideNavHtml(users);
         this.SideContentArea.html(html);
+
+        //Enable hiding of albums
+        $(".side-nav-user").click(this.ShowUserAlbums);
         console.log("LoadUsers");
     }
     async LoadAlbum(albumId) {
@@ -152,6 +155,13 @@ class App {
         };
         var html = PhotoAlbum.PhotosToCardsHtml(input);
         this.MainContentArea.html(html);
+    }
+
+    // Methods - Interactions
+    ShowUserAlbums(event) {
+        var userId = $(this).attr("userId");
+        $(`.album-card`).parent().show();
+        $(`.album-card:not([userId=${userId}])`).parent().hide();
     }
 }
 

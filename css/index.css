@@ -29,6 +29,7 @@
   text-decoration: none;
 }
 .side-nav-user:hover {
+  cursor: pointer;
   background-color: red;
 }
 #side-nav .user-link:hover {
