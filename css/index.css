@@ -1,4 +1,4 @@
-/* Color Codes
+﻿/* Color Codes
 -------------------------------------------------- */
 :root {
   --lt-light-gray: #AEABB8;
@@ -69,3 +69,24 @@
   width: 12.5%;
 }
 
+/* Photo Card
+-------------------------------------------------- */
+.photo-card {
+  position: relative;
+  border: 1px solid var(--lt-light-gray);
+  overflow: hidden;
+  border-radius: 10px;
+}
+.photo-card-thumbnail img {
+  width:100%;
+}
+.photo-card-title {
+  position:absolute;
+  font-size: x-small;
+  top: 8px;
+  left: 8px;
+  width: 90%;
+}
+.photo-card a {
+  color: white;
+}

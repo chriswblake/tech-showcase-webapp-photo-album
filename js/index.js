@@ -60,27 +60,68 @@ class PhotoAlbum {
     }
     static PhotosToThumnails(photos) {
         photos = photos.slice(0,16);
-        return this.thumbnails(photos);
+        var thumbnails = Handlebars.getTemplate('photo-album-card-thumnails');
+        var html =thumbnails(photos);
+        return html;
+    }
+    static PhotosToCardsHtml(photos) {
+        var photoCards = Handlebars.getTemplate('photo-cards');
+        var html = photoCards(photos);
+        return html;
+    }
+}
+
+class App {
+    constructor() {
+        // Check URL for querystring parameters
+        const urlParams = new URLSearchParams(window.location.search);
+
+        // Pick action based on parameters
+        if(urlParams.has('albumId'))
+        {
+            // Show images for album
+            const albumId = urlParams.get('albumId');
+            this.LoadAlbum(albumId);
+        }else // Display Albums
+        {
+            // Load previous search
+            this.LoadAlbums();
+        }
+    }
+
+    // Properties
+    get MainContentArea() {
+        return $("#main-content");
+    }
+
+    // Methods
+    async LoadAlbums() {
+        var html = "";
+        var albums = await PhotoAlbum.GetAlbums();
+        albums.forEach(album => {
+            html += PhotoAlbum.AlbumToCardHtml(album);
+        });
+        this.MainContentArea.html(html);
+
+        // Lazy load thumnbails, after cards
+        $(".album-card").each(async function () {
+            var albumId = $(this).attr("albumId");
+            var albumPhotos = await PhotoAlbum.GetPhotos(albumId);
+            var thumbnailsHtml = PhotoAlbum.PhotosToThumnails(albumPhotos);
+            $(this).find("#album-thumbnails").html(thumbnailsHtml);
+        })
+        
+        console.log("LoadAlbums");
+    }
+    async LoadAlbum(albumId) {
+        var photos = await PhotoAlbum.GetPhotos(albumId);
+        var html = PhotoAlbum.PhotosToCardsHtml(photos);
+        this.MainContentArea.html(html);
     }
 }
 
 // Main
 $( document ).ready(async function() {
-    // Load Albums
-    var html = "";
-    var albums = await PhotoAlbum.GetAlbums();
-    albums.forEach(album => {
-        html += PhotoAlbum.AlbumToCardHtml(album);
-    });
-    $("#main-content").html(html);
-
-    // Lazy load thumnbails, after cards
-    $(".album-card").each(async function () {
-        var albumId = $(this).attr("albumId");
-        var albumPhotos = await PhotoAlbum.GetPhotos(albumId);
-        var thumbnailsHtml = PhotoAlbum.PhotosToThumnails(albumPhotos);
-        $(this).find("#album-thumbnails").html(thumbnailsHtml);
-        console.log(thumbnailsHtml);
-    })
+    app = new App();
     console.log('Ready');
 });

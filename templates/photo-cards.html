@@ -1,0 +1,12 @@
+<div class='row'>
+    {{#each this}}
+    <div class="col-6 col-sm-6 col-md-3 col-lg-2 col-xl-1" style="padding: 5px">
+    <div class="photo-card" photoId="{{id}}">
+        <a class="photo-card-thumbnail" href="{{url}}" target="_blank">
+            <img src="{{thumbnailUrl}}">
+            <div class="photo-card-title">{{title}}</div>
+        </a>
+    </div>
+    </div>
+{{/each}}
+</div>
