@@ -74,15 +74,14 @@ class PhotoAlbum {
     }
 
     // Methods - Display
-    static albumCard = Handlebars.getTemplate('photo-album-card');
-    static thumbnails = Handlebars.getTemplate('photo-album-card-thumnails');
     static AlbumToCardHtml(album) {
-        return this.albumCard(album);
+        var albumCard = Handlebars.getTemplate('photo-album-card');
+        return albumCard(album);
     }
     static PhotosToThumnails(photos) {
         photos = photos.slice(0,16);
         var thumbnails = Handlebars.getTemplate('photo-album-card-thumnails');
-        var html =thumbnails(photos);
+        var html = thumbnails(photos);
         return html;
     }
     static PhotosToCardsHtml(photos) {
@@ -105,7 +104,6 @@ class App {
             this.LoadAlbum(albumId);
         }else // Display Albums
         {
-            // Load previous search
             this.LoadAlbums();
             this.LoadUsers();
         }
