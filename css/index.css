@@ -1,0 +1,11 @@
+/* Color Codes
+-------------------------------------------------- */
+:root {
+  --lt-light-gray: #AEABB8;
+  --lt-dark-gray: #384144;
+  --lt-dark-blue: #073747;
+  --lt-blue: #09516c;
+  --lt-dark-red: #7b383a;
+  --lt-text-gray: #7b7d7a;
+  --lt-yellow: #bace4f;
+}
