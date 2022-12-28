@@ -1,4 +1,4 @@
-﻿/* Color Codes
+/* Color Codes
 -------------------------------------------------- */
 :root {
   --lt-light-gray: #AEABB8;
@@ -10,6 +10,30 @@
   --lt-yellow: #bace4f;
 }
 
+/* General
+-------------------------------------------------- */
+#side-nav {
+  padding: 5px 15px;
+}
+/* Side-Nav Users
+-------------------------------------------------- */
+.side-nav-user {
+  background-color: var(--lt-light-gray);
+  border-radius: 0.5em;
+  font-size: x-small;
+  padding: 5px 15px;
+  margin: 0.5em 0;
+}
+#side-nav .user-link {
+  color: var(--lt-dark-red);
+  text-decoration: none;
+}
+.side-nav-user:hover {
+  background-color: red;
+}
+#side-nav .user-link:hover {
+  color: var(--lt-yellow);
+}
 /* Album Card
 -------------------------------------------------- */
 .album-card {

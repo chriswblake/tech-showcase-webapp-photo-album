@@ -16,6 +16,27 @@ Handlebars.getTemplate = function(name) {
 
 // Classes
 apiOrigin = "https://jsonplaceholder.typicode.com"
+class User {
+    // Methods - Queries
+    static async GetUsers() {
+        var albums = undefined;
+        await $.get(`${apiOrigin}/users`, function( result ) {
+            albums = result;
+        })
+        .fail(function() {
+            album = {};
+            console.log( "GetUsers: Unable to get users via API.");
+        });
+        return albums;  
+    }
+
+    // Methods - Display
+    static UsersToSideNavHtml(photos) {
+        var sideNavUsers = Handlebars.getTemplate('side-nav-users');
+        var html = sideNavUsers(photos);
+        return html;
+    }
+}
 class PhotoAlbum {
     // Methods - Queries
     static async GetAlbums() {
@@ -86,12 +107,16 @@ class App {
         {
             // Load previous search
             this.LoadAlbums();
+            this.LoadUsers();
         }
     }
 
     // Properties
     get MainContentArea() {
         return $("#main-content");
+    }
+    get SideContentArea() {
+        return $("#side-nav");
     }
 
     // Methods
@@ -112,6 +137,13 @@ class App {
         })
         
         console.log("LoadAlbums");
+    }
+    async LoadUsers() {
+        var users = await User.GetUsers();
+        console.log(users.length);
+        var html = User.UsersToSideNavHtml(users);
+        this.SideContentArea.html(html);
+        console.log("LoadUsers");
     }
     async LoadAlbum(albumId) {
         var album = await PhotoAlbum.GetAlbum(albumId);
