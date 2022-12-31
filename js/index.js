@@ -15,20 +15,7 @@ Handlebars.getTemplate = function(name) {
 };
 
 // Classes
-apiOrigin = "https://jsonplaceholder.typicode.com"
 class User {
-    // Methods - Queries
-    static async GetUsers() {
-        var albums = undefined;
-        await $.get(`${apiOrigin}/users`, function( result ) {
-            albums = result;
-        })
-        .fail(function() {
-            album = {};
-            console.log( "GetUsers: Unable to get users via API.");
-        });
-        return albums;  
-    }
 
     // Methods - Display
     static UsersToSideNavHtml(photos) {
@@ -38,40 +25,6 @@ class User {
     }
 }
 class PhotoAlbum {
-    // Methods - Queries
-    static async GetAlbums() {
-        var albums = undefined;
-        await $.get(`${apiOrigin}/albums`, function( result ) {
-            albums = result;
-        })
-        .fail(function() {
-            album = {};
-            console.log( "GetAlbums: Unable to get photo albums via API.");
-        });
-        return albums;  
-    }
-    static async GetAlbum(albumId) {
-        var album = undefined;
-        await $.get(`${apiOrigin}/albums/${albumId}`, function( result ) {
-            album = result;
-        })
-        .fail(function() {
-            album = {};
-            console.log( "GetAlbum: Unable to get album details via API.");
-        });
-        return album;
-    }
-    static async GetPhotos(albumId) {
-        var photos = undefined;
-        await $.get(`${apiOrigin}/photos`, {"albumId": albumId}, function( result ) {
-            photos = result;
-        })
-        .fail(function() {
-            photos = [];
-            console.log( "GetPhotos: Unable to get album photos via API.");
-        });
-        return photos;
-    }
 
     // Methods - Display
     static AlbumToCardHtml(album) {
@@ -120,7 +73,7 @@ class App {
     // Methods
     async LoadAlbums() {
         var html = "";
-        var albums = await PhotoAlbum.GetAlbums();
+        var albums = await PhotosApiClient.GetAlbums();
         albums.forEach(album => {
             html += PhotoAlbum.AlbumToCardHtml(album);
         });
@@ -130,7 +83,7 @@ class App {
         // Lazy load thumnbails, after cards
         $(".album-card").each(async function () {
             var albumId = $(this).attr("albumId");
-            var albumPhotos = await PhotoAlbum.GetPhotos(albumId);
+            var albumPhotos = await PhotosApiClient.GetPhotos(albumId);
             var thumbnailsHtml = PhotoAlbum.PhotosToThumnails(albumPhotos);
             $(this).find("#album-thumbnails").html(thumbnailsHtml);
         })
@@ -138,7 +91,7 @@ class App {
         console.log("LoadAlbums");
     }
     async LoadUsers() {
-        var users = await User.GetUsers();
+        var users = await PhotosApiClient.GetUsers();
         console.log(users.length);
         var html = User.UsersToSideNavHtml(users);
         this.SideContentArea.html(html);
@@ -148,8 +101,8 @@ class App {
         console.log("LoadUsers");
     }
     async LoadAlbum(albumId) {
-        var album = await PhotoAlbum.GetAlbum(albumId);
-        var photos = await PhotoAlbum.GetPhotos(albumId);
+        var album = await PhotosApiClient.GetAlbum(albumId);
+        var photos = await PhotosApiClient.GetPhotos(albumId);
         var input = {
             "album": album,
             "photos": photos
